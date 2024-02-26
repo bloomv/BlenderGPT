@@ -159,14 +159,17 @@ class GPT4_OT_Execute(bpy.types.Operator):
     )
 
     def execute(self, context):
-        openai.api_key = get_api_key(context, __name__)
-        # if null then set to env key
-        if not openai.api_key:
-            openai.api_key = os.getenv("OPENAI_API_KEY")
+        if context.scene.gpt4_model == "gemma-7b":
+            pass
+        else:
+            openai.api_key = get_api_key(context, __name__)
+            # if null then set to env key
+            if not openai.api_key:
+                openai.api_key = os.getenv("OPENAI_API_KEY")
 
-        if not openai.api_key:
-            self.report({'ERROR'}, "No API key detected. Please set the API key in the addon preferences.")
-            return {'CANCELLED'}
+            if not openai.api_key:
+                self.report({'ERROR'}, "No API key detected. Please set the API key in the addon preferences.")
+                return {'CANCELLED'}
 
         context.scene.gpt4_button_pressed = True
         bpy.ops.wm.redraw_timer(type='DRAW_WIN_SWAP', iterations=1)
