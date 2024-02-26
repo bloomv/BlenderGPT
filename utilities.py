@@ -89,26 +89,28 @@ def generate_blender_code(prompt, chat_history, context, system_prompt):
             #for event in response:
                 if line:
                     data = line.decode("utf-8").replace('data: ', '')
-                    #print(data)
-                    event = json.loads(data)
-                    #if 'role' in event['choices'][0]['delta']:
-                        # skip
-                    #    continue
-                    #if len(event['choices'][0]['delta']) == 0:
-                    #    # skip
-                    #    continue
-                    collected_events.append(event)  # save the event response
-                    event_text = event['choices'][0]['delta']['content']
-                    completion_text += event_text  # append the text
-                    #print(completion_text, flush=True, end='\r')
+                    print(data)
+                    if data != '[DONE]':
+                        event = json.loads(data)
+                        #if 'role' in event['choices'][0]['delta']:
+                            # skip
+                        #    continue
+                        #if len(event['choices'][0]['delta']) == 0:
+                        #    # skip
+                        #    continue
+                        collected_events.append(event)  # save the event response
+                        event_text = event['choices'][0]['delta']['content']
+                        completion_text += event_text  # append the text
+                        #print(completion_text, flush=True, end='\r')
             completion_text = re.findall(r'```(.*?)```', completion_text, re.DOTALL)[0]
             completion_text = re.sub(r'^python', '', completion_text, flags=re.MULTILINE)
             return completion_text
-        #except IndexError:
-        except json.decoder.JSONDecodeError:
-            completion_text = re.findall(r'```(.*?)```', completion_text, re.DOTALL)[0]
-            completion_text = re.sub(r'^python', '', completion_text, flags=re.MULTILINE)
-            return completion_text #None
+        except IndexError:
+            return None
+        #except json.decoder.JSONDecodeError:
+        #    completion_text = re.findall(r'```(.*?)```', completion_text, re.DOTALL)[0]
+        #    completion_text = re.sub(r'^python', '', completion_text, flags=re.MULTILINE)
+        #    return completion_text #None
     
     # openai api
     messages = [{"role": "system", "content": system_prompt}]
