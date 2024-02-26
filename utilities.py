@@ -23,7 +23,8 @@ def init_props():
         ("gpt-4", "GPT-4 (powerful, expensive)", "Use GPT-4"),
         ("gpt-3.5-turbo", "GPT-3.5 Turbo (less powerful, cheaper)", "Use GPT-3.5 Turbo"),
     ],
-    default="gpt-4",
+    #default="gpt-4",
+    default="gemma-7b",
 )
     bpy.types.Scene.gpt4_chat_input = bpy.props.StringProperty(
         name="Message",
@@ -69,7 +70,7 @@ def generate_blender_code(prompt, chat_history, context, system_prompt):
         "messages": messages,
         "temperature": 0.2,
         "top_p": 0.7,
-        "max_tokens": 1024*8,
+        "max_tokens": 1024*4, # 1024*8, # Input should be less than or equal to 4096
         "seed": 42,
         "bad": None,
         "stop": None,
