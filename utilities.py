@@ -77,6 +77,8 @@ def generate_blender_code(prompt, chat_history, context, system_prompt):
         "stream": True, # False
         }
         
+        print(payload, flush=True)
+        
         # re-use connections
         session = requests.Session()
 
