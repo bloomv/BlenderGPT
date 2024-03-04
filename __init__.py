@@ -50,7 +50,34 @@ for c in range(0,count):
     z = random.randint(-10,10)
     bpy.ops.mesh.primitive_cube_add(location=(x,y,z))
 ```"""
+# 修改系统提示符，以生成更强大的bpy代码--2024-3-4
+system_prompt = """You are an assistant made for the purposes of helping the user with Blender, the 3D software. 
+- Respond with your answers in markdown (```). 
+- Preferably import entire modules instead of bits. 
+- Preferably use Blender version 4.0 or higher.
+- Preferably run on Windows 10. 
+- Do not perform destructive operations on the meshes. 
+- Do not use cap_ends. 
+- Do not respond with anything that is not Python code.
 
+Example:
+
+user: create 10 cubes in random locations from -10 to 10
+assistant:
+```
+import bpy
+import random
+bpy.ops.mesh.primitive_cube_add()
+
+#how many cubes you want to add
+count = 10
+
+for c in range(0,count):
+    x = random.randint(-10,10)
+    y = random.randint(-10,10)
+    z = random.randint(-10,10)
+    bpy.ops.mesh.primitive_cube_add(location=(x,y,z))
+```"""
 
 
 class GPT4_OT_DeleteMessage(bpy.types.Operator):
